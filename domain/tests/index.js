@@ -1,36 +1,35 @@
-const { stats, strictEqual, throws, offTests } = require("./util");
-// offTests();
-const { Participant } = require("../model/Participant");
-const { Room } = require("../model/Room");
-const helper = require("../service/helper");
+const test = require("./util");
+// test.offTests();
+const facade = require("../service/facade");
 
-const elon = new Participant("Elon M.");
-const steve = new Participant("Steve J.");
-const mark = new Participant("Mark Z.");
+const elon = facade.createParticipant("Elon M.");
+const steve = facade.createParticipant("Steve J.");
+const mark = facade.createParticipant("Mark Z.");
 
-const startups = new Room("Startups");
-const tesla = new Room("Tesla");
-const spaceX = new Room("SpaceX");
+const startups = facade.createGroupChat("Startups");
+const tesla = facade.createGroupChat("Tesla");
+const spaceX = facade.createGroupChat("SpaceX");
 
-helper.joinChat(elon, startups);
-strictEqual(elon.hasChat(startups), true);
-helper.joinChat(steve, startups);
-strictEqual(startups.participants.length, 2);
-helper.sendMessage(elon, startups, "Hi, there!");
-helper.sendMessage(steve, startups, "Hello!");
-throws(() => {
-  helper.sendMessage(mark, startups, "Hola!");
+facade.joinChat(elon, startups);
+test.strictEqual(elon.hasChat(startups), true);
+facade.joinChat(steve, startups);
+test.strictEqual(startups.participants.length, 2);
+facade.sendMessage(elon, startups, "Hi, there!");
+facade.sendMessage(steve, startups, "Hello!");
+
+test.throws(() => {
+  facade.sendMessage(mark, startups, "Hola!");
 });
-strictEqual(startups.messages.length, 2);
-helper.joinChat(elon, tesla);
-helper.joinChat(elon, spaceX);
-strictEqual(elon.chats.length, 3);
-helper.leaveChat(elon, tesla);
-strictEqual(tesla.hasParticipant(elon), false);
-strictEqual(elon.hasChat(tesla), false);
-const elonSteveDirectConversation = helper.createDirectChat(elon, steve);
-throws(() => {
+test.strictEqual(startups.messages.length, 2);
+facade.joinChat(elon, tesla);
+facade.joinChat(elon, spaceX);
+test.strictEqual(elon.chats.length, 3);
+facade.leaveChat(elon, tesla);
+test.strictEqual(tesla.hasParticipant(elon), false);
+test.strictEqual(elon.hasChat(tesla), false);
+test.throws(() => {
+  const elonSteveDirectConversation = facade.createDirectChat(elon, steve);
   elonSteveDirectConversation.addParticipant(mark);
 });
 
-stats();
+test.stats();

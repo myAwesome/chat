@@ -6,6 +6,7 @@ class Room {
   isDirect;
   constructor(name) {
     this.name = name;
+    this.isDirect = false;
     this.messages = [];
     this.participants = [];
   }

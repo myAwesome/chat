@@ -1,5 +1,6 @@
 const { Message } = require("../model/Message");
 const { Room } = require("../model/Room");
+const { Participant } = require("../model/Participant");
 
 const joinChat = (participant, chat) => {
   if (chat.hasParticipant(participant)) {
@@ -34,9 +35,19 @@ const createDirectChat = (p1, p2) => {
   return room;
 };
 
+const createParticipant = (name) => {
+  return new Participant(name);
+};
+
+const createGroupChat = (name) => {
+  return new Room(name);
+};
+
 module.exports = {
+  createParticipant,
   joinChat,
   leaveChat,
-  sendMessage,
   createDirectChat,
+  createGroupChat,
+  sendMessage,
 };

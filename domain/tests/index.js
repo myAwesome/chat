@@ -27,9 +27,13 @@ test.strictEqual(elon.chats.length, 3);
 facade.leaveChat(elon, tesla);
 test.strictEqual(tesla.hasParticipant(elon), false);
 test.strictEqual(elon.hasChat(tesla), false);
+const elonSteveDC = facade.getDirectChat(elon, steve);
+
 test.throws(() => {
-  const elonSteveDirectConversation = facade.createDirectChat(elon, steve);
-  elonSteveDirectConversation.addParticipant(mark);
+  elonSteveDC.addParticipant(mark);
 });
+
+const steveEloneDC = facade.getDirectChat(elon, steve);
+test.strictEqual(elonSteveDC.id, steveEloneDC.id);
 
 test.stats();

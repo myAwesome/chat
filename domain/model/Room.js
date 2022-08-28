@@ -1,10 +1,14 @@
 class Room {
+  id;
   name;
   messages;
   participants;
   lastMessageTime;
   isDirect;
+  static nextId = 0;
+
   constructor(name) {
+    this.id = ++Room.nextId;
     this.name = name;
     this.isDirect = false;
     this.messages = [];

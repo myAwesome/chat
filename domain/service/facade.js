@@ -26,12 +26,20 @@ const sendMessage = (participant, chat, text) => {
   chat.addMessage(message);
 };
 
-const createDirectChat = (p1, p2) => {
-  // todo: check if exist
-  const room = new Room(null);
+const getDirectChat = (p1, p2) => {
+  let room = p1.getDirectChat(p2);
+  if (p1.getDirectChat(p2)) {
+    return room;
+  }
+  room = new Room(null);
+  room.isDirect = true;
+
   room.addParticipant(p1);
   room.addParticipant(p2);
-  room.isDirect = true;
+
+  p1.addDirectChat(room, p2);
+  p2.addDirectChat(room, p1);
+
   return room;
 };
 
@@ -47,7 +55,7 @@ module.exports = {
   createParticipant,
   joinChat,
   leaveChat,
-  createDirectChat,
+  getDirectChat,
   createGroupChat,
   sendMessage,
 };

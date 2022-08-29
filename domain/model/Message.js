@@ -1,4 +1,5 @@
 class Message {
+  id;
   text;
   time;
   author;

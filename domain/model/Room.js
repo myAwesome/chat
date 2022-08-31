@@ -17,7 +17,7 @@ class Room {
 
   addParticipant = (participant) => {
     if (this.isDirect && this.participants.length === 2) {
-      throw new Error("cant add new participants to direct chat");
+      throw new Error("cant add new participants to direct room");
     }
     this.participants.push(participant);
   };

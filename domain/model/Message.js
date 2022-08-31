@@ -3,8 +3,10 @@ class Message {
   text;
   time;
   author;
-  constructor(author, text) {
+  room;
+  constructor(author, text, room) {
     this.author = author;
+    this.room = room;
     this.text = text;
     this.time = new Date();
   }

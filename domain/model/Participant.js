@@ -1,40 +1,40 @@
 class Participant {
   id;
   name;
-  chats;
-  directChats;
+  rooms;
+  directRooms;
   static nextId = 0;
   constructor(name) {
     this.id = ++Participant.nextId;
     this.name = name;
-    this.chats = [];
-    this.directChats = new Map();
+    this.rooms = [];
+    this.directRooms = new Map();
   }
 
-  addChat = (chat) => {
-    this.chats.push(chat);
+  addRoom = (room) => {
+    this.rooms.push(room);
   };
 
-  removeChat = (chat) => {
-    this.chats = this.chats.filter((c) => c !== chat);
+  removeRoom = (room) => {
+    this.rooms = this.rooms.filter((c) => c !== room);
   };
 
-  hasChat = (chat) => {
-    return this.chats.includes(chat);
+  hasRoom = (room) => {
+    return this.rooms.includes(room);
   };
 
-  addDirectChat = (chat, p2) => {
-    this.directChats.set(p2.id, chat);
-    this.addChat(chat);
+  addDirectRoom = (room, p2) => {
+    this.directRooms.set(p2.id, room);
+    this.addRoom(room);
   };
 
-  removeDirectChat = (chat, p2) => {
-    this.directChats.delete(p2.id);
-    this.removeChat(chat);
+  removeDirectRoom = (room, p2) => {
+    this.directRooms.delete(p2.id);
+    this.removeRoom(room);
   };
 
-  getDirectChat = (p2) => {
-    return this.directChats.get(p2.id);
+  getDirectRoom = (p2) => {
+    return this.directRooms.get(p2.id);
   };
 }
 

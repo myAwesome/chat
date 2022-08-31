@@ -7,7 +7,7 @@ const elon = facade.createParticipant("Elon M.");
 storageService.saveParticipant(elon);
 test.strictEqual(storageService.getParticipant(elon.id).id, elon.id);
 
-const startups = facade.createGroupChat("Startups");
+const startups = facade.createGroupRoom("Startups");
 storageService.createRoom(startups);
 test.strictEqual(storageService.getRoom(startups.id).id, startups.id);
 

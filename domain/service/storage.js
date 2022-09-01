@@ -1,7 +1,8 @@
-class Storage {
+class StorageInMemory {
   constructor() {
     this.rooms = new Map();
     this.participants = new Map();
+    this.messages = new Map();
   }
 
   createRoom = (room) => {
@@ -27,7 +28,30 @@ class Storage {
     return id;
   };
 
-  saveParticipant = (participant) => {
+  createMessage = (room) => {
+    this.messages.set(room.id, room);
+    return room;
+  };
+
+  updateMessage = (room) => {
+    this.messages.set(room.id, room);
+    return room;
+  };
+
+  getMessage = (id) => {
+    return this.messages.get(id);
+  };
+
+  getMessages = () => {
+    return this.messages;
+  };
+
+  deleteMessage = (id) => {
+    this.messages.delete(id);
+    return id;
+  };
+
+  createParticipant = (participant) => {
     this.participants.set(participant.id, participant);
     return participant;
   };
@@ -52,5 +76,5 @@ class Storage {
 }
 
 module.exports = {
-  Storage,
+  StorageInMemory,
 };

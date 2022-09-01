@@ -18,7 +18,7 @@ const leaveRoom = (participant, room) => {
   room.removeParticipant(participant);
 };
 
-const sendMessage = (participant, room, text) => {
+const createMessage = (participant, room, text) => {
   if (!room.hasParticipant(participant)) {
     throw new Error("Only participants can send a message");
   }
@@ -57,5 +57,5 @@ module.exports = {
   leaveRoom,
   getDirectRoom,
   createGroupRoom,
-  sendMessage,
+  createMessage,
 };

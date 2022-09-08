@@ -1,8 +1,11 @@
 const assert = require("assert");
 
 const colors = {
-  success: "\x1b[32m%s\x1b[0m",
-  error: "\x1b[31m%s\x1b[0m",
+  red: "\x1b[31m%s\x1b[0m",
+  green: "\x1b[32m%s\x1b[0m",
+  yellow: "\x1b[33m%s\x1b[0m",
+  blue: "\x1b[34m%s\x1b[0m",
+  magenta: "\x1b[35m%s\x1b[0m",
 };
 let passed = 0;
 let failed = 0;
@@ -17,10 +20,10 @@ const strictEqual = (a, b) => {
   if (!testMode) return;
   try {
     assert.strictEqual(a, b);
-    console.log(colors.success, `Passed: "${a}" strictEqual "${b}"`);
+    console.log(colors.green, `Passed: "${a}" strictEqual "${b}"`);
     passed++;
   } catch (e) {
-    console.log(colors.error, `Failed: "${a}" is not strictEqual "${b}"`);
+    console.log(colors.red, `Failed: "${a}" is not strictEqual "${b}"`);
     failed++;
   }
 };
@@ -30,10 +33,10 @@ const throws = (a) => {
 
   try {
     assert.throws(a);
-    console.log(colors.success, `Passed: throws error as expected"`);
+    console.log(colors.green, `Passed: throws red as expected"`);
     passed++;
   } catch (e) {
-    console.log(colors.error, `Failed: doesnot throws error `);
+    console.log(colors.red, `Failed: doesnot throws red `);
     failed++;
   }
 };
@@ -43,11 +46,29 @@ const stats = () => {
 
   console.log("-------------------------");
   if (failed) {
-    console.log(colors.error, `Failed: ${failed}`);
+    console.log(colors.red, `Failed: ${failed}`);
   }
   if (passed) {
-    console.log(colors.success, `Passed: ${passed}`);
+    console.log(colors.green, `Passed: ${passed}`);
   }
 };
 
-module.exports = { strictEqual, throws, stats, offTests };
+const logRequest = (req, re, next) => {
+  let color;
+  switch (req.method) {
+    case "GET":
+      color = colors.green;
+      break;
+    case "PUT":
+    case "POST":
+      color = colors.yellow;
+      break;
+    case "DELETE":
+      color = colors.red;
+      break;
+  }
+  console.log(color, `${req.method} - ${req.url}`);
+  next();
+};
+
+module.exports = { strictEqual, throws, stats, offTests, logRequest };

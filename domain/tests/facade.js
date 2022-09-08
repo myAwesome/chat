@@ -14,11 +14,11 @@ facade.joinRoom(elon, startups);
 test.strictEqual(elon.hasRoom(startups), true);
 facade.joinRoom(steve, startups);
 test.strictEqual(startups.participants.length, 2);
-facade.sendMessage(elon, startups, "Hi, there!");
-facade.sendMessage(steve, startups, "Hello!");
+facade.createMessage(elon, startups, "Hi, there!");
+facade.createMessage(steve, startups, "Hello!");
 
 test.throws(() => {
-  facade.sendMessage(mark, startups, "Hola!");
+  facade.createMessage(mark, startups, "Hola!");
 });
 test.strictEqual(startups.messages.length, 2);
 facade.joinRoom(elon, tesla);

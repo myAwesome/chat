@@ -22,8 +22,10 @@ const createMessage = (participant, room, text) => {
   if (!room.hasParticipant(participant)) {
     throw new Error("Only participants can send a message");
   }
+
   const message = new Message(participant, text);
   room.addMessage(message);
+  return message;
 };
 
 const getDirectRoom = (p1, p2) => {

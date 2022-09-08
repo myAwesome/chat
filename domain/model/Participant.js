@@ -36,6 +36,13 @@ class Participant {
   getDirectRoom = (p2) => {
     return this.directRooms.get(p2.id);
   };
+
+  toJSON = () => {
+    return {
+      id: this.id,
+      name: this.name,
+    };
+  };
 }
 
 module.exports = { Participant };

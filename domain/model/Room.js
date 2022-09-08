@@ -34,5 +34,15 @@ class Room {
     this.messages.push(message);
     this.lastMessageTime = message.time;
   };
+
+  toJSON = () => {
+    return {
+      id: this.id,
+      name: this.name,
+      participants: this.participants,
+      lastMessageTime: this.lastMessageTime,
+      isDirect: this.isDirect,
+    };
+  };
 }
 module.exports = { Room };

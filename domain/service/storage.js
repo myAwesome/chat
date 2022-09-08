@@ -28,14 +28,14 @@ class StorageInMemory {
     return id;
   };
 
-  createMessage = (room) => {
-    this.messages.set(room.id, room);
-    return room;
+  createMessage = (message) => {
+    this.messages.set(message.id, message);
+    return message;
   };
 
-  updateMessage = (room) => {
-    this.messages.set(room.id, room);
-    return room;
+  updateMessage = (message) => {
+    this.messages.set(message.id, message);
+    return message;
   };
 
   getMessage = (id) => {

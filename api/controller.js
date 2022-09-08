@@ -32,6 +32,20 @@ class Controller {
       res.status(204).json();
     });
 
+    app.put(`/room/:id/participant/:pid`, async (req, res) => {
+      const participant = storage.getParticipant(+req.params.pid);
+      const room = storage.getRoom(+req.params.id);
+      domainFacade.joinRoom(participant, room);
+      res.status(201).json("joinRoom");
+    });
+
+    app.delete(`/room/:id/participant/:pid`, async (req, res) => {
+      const participant = storage.getParticipant(+req.params.pid);
+      const room = storage.getRoom(+req.params.id);
+      domainFacade.leaveRoom(participant, room);
+      res.status(204).json("leaveRoom");
+    });
+
     app.get(`/participants`, async (req, res) => {
       res.json(Array.from(storage.getParticipants().values()));
     });
@@ -64,20 +78,25 @@ class Controller {
     });
 
     app.get(`/message/:id`, async (req, res) => {
-      const participant = storage.getMessage(+req.params.id);
-      res.json(participant);
+      const message = storage.getMessage(+req.params.id);
+      res.json(message);
     });
 
     app.post(`/message`, async (req, res) => {
-      // todo:
-      const participant = domainFacade.createMessage(req.body.name);
-      res.status(201).json(storage.createMessage(participant));
+      const participant = storage.getParticipant(req.body.participant);
+      const room = storage.getRoom(req.body.room);
+      const message = domainFacade.createMessage(
+        participant,
+        room,
+        req.body.text
+      );
+      res.status(201).json(storage.createMessage(message));
     });
 
     app.put(`/message/:id`, async (req, res) => {
-      const participant = storage.getMessage(+req.params.id);
-      participant.name = req.body.name;
-      res.status(201).json(storage.updateMessage(+req.params.id, participant));
+      const message = storage.getMessage(+req.params.id);
+      message.name = req.body.name;
+      res.status(201).json(storage.updateMessage(+req.params.id, message));
     });
 
     app.delete(`/message/:id`, async (req, res) => {

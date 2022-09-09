@@ -1,32 +1,40 @@
-class StorageInMemory {
+const kenx = require("knex");
+const db = kenx({
+  client: "pg",
+  connection: `postgres://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_SCHEME}`,
+});
+
+class StorageInPostgreSql {
   constructor() {
-    this.rooms = new Map();
     this.participants = new Map();
     this.messages = new Map();
   }
 
-  createRoom = (room) => {
-    this.rooms.set(room.id, room);
+  createRoom = async (room) => {
+    await db("room").insert(room.toDb(), ["id"]);
     return room;
   };
 
-  updateRoom = (room) => {
-    this.rooms.set(room.id, room);
+  updateRoom = async (room) => {
+    console.log(room);
+    await db("room").where({ id: room.id }).update(room.toDb());
     return room;
   };
 
-  getRoom = (id) => {
-    return this.rooms.get(id);
+  getRooms = async () => {
+    return db("room").select();
   };
 
-  getRooms = () => {
-    return this.rooms.values();
+  getRoom = async (id) => {
+    return db("room").select().where({ id });
   };
 
-  deleteRoom = (id) => {
-    this.rooms.delete(id);
-    return id;
+  deleteRoom = async (id) => {
+    return db("room").where({ id }).del();
   };
+
+  //
+  //
 
   createMessage = (message) => {
     this.messages.set(message.id, message);
@@ -43,7 +51,7 @@ class StorageInMemory {
   };
 
   getMessages = () => {
-    return this.messages.values();
+    return this.messages;
   };
 
   deleteMessage = (id) => {
@@ -66,7 +74,7 @@ class StorageInMemory {
   };
 
   getParticipants = () => {
-    return this.participants.values();
+    return this.participants;
   };
 
   deleteParticipant = (id) => {
@@ -76,5 +84,5 @@ class StorageInMemory {
 }
 
 module.exports = {
-  StorageInMemory,
+  StorageInPostgreSql,
 };

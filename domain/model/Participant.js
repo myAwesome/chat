@@ -43,6 +43,12 @@ class Participant {
       name: this.name,
     };
   };
+
+  toDb = () => {
+    return {
+      name: this.name,
+    };
+  };
 }
 
 module.exports = { Participant };

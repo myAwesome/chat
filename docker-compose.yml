@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:13.1
+    ports:
+      - ${DB_PORT}:5432
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_DB=${DB_SCHEME}
+      - POSTGRES_PASSWORD=${DB_PASS}

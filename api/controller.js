@@ -1,24 +1,26 @@
-const { StorageInMemory } = require("../domain/service/storage");
 const domainFacade = require("../domain/service/facade");
 
 class Controller {
-  constructor(app) {
+  storage;
+  constructor(app, storage) {
+    this.storage = storage;
     this.defineRoutes(app);
   }
   defineRoutes = (app) => {
-    const storage = new StorageInMemory();
+    const storage = this.storage;
     app.get(`/rooms`, async (req, res) => {
-      res.json(Array.from(storage.getRooms().values()));
+      const rooms = await storage.getRooms();
+      res.json(Array.from(rooms));
     });
 
     app.get(`/room/:id`, async (req, res) => {
-      const room = storage.getRoom(+req.params.id);
+      const room = await storage.getRoom(+req.params.id);
       res.json(room);
     });
 
     app.post(`/room`, async (req, res) => {
       const room = domainFacade.createGroupRoom(req.body.name);
-      res.status(201).json(storage.createRoom(room));
+      res.status(201).json(await storage.createRoom(room));
     });
 
     app.put(`/room/:id`, async (req, res) => {
@@ -28,7 +30,7 @@ class Controller {
     });
 
     app.delete(`/room/:id`, async (req, res) => {
-      storage.deleteRoom(+req.params.id);
+      await storage.deleteRoom(+req.params.id);
       res.status(204).json();
     });
 
@@ -47,7 +49,7 @@ class Controller {
     });
 
     app.get(`/participants`, async (req, res) => {
-      res.json(Array.from(storage.getParticipants().values()));
+      res.json(Array.from(storage.getParticipants()));
     });
 
     app.get(`/participant/:id`, async (req, res) => {
@@ -74,7 +76,7 @@ class Controller {
     });
 
     app.get(`/messages`, async (req, res) => {
-      res.json(Array.from(storage.getMessages().values()));
+      res.json(Array.from(storage.getMessages()));
     });
 
     app.get(`/message/:id`, async (req, res) => {

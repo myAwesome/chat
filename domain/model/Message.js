@@ -24,6 +24,13 @@ class Message {
       },
     };
   };
+
+  toDb = () => {
+    return {
+      text: this.text,
+      time: this.time,
+    };
+  };
 }
 
 module.exports = { Message };

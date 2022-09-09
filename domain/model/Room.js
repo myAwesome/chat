@@ -44,5 +44,12 @@ class Room {
       isDirect: this.isDirect,
     };
   };
+
+  toDb = () => {
+    return {
+      name: this.name,
+      is_direct: this.isDirect,
+    };
+  };
 }
 module.exports = { Room };

@@ -11,9 +11,14 @@ let passed = 0;
 let failed = 0;
 
 let testMode = true;
+let logMode = true;
 
 const offTests = () => {
   testMode = false;
+};
+
+const offLogs = () => {
+  logMode = false;
 };
 
 const strictEqual = (a, b) => {
@@ -54,21 +59,24 @@ const stats = () => {
 };
 
 const logRequest = (req, re, next) => {
-  let color;
-  switch (req.method) {
-    case "GET":
-      color = colors.green;
-      break;
-    case "PUT":
-    case "POST":
-      color = colors.yellow;
-      break;
-    case "DELETE":
-      color = colors.red;
-      break;
+  if (logMode) {
+    let color;
+    switch (req.method) {
+      case "GET":
+        color = colors.green;
+        break;
+      case "PUT":
+      case "POST":
+        color = colors.yellow;
+        break;
+      case "DELETE":
+        color = colors.red;
+        break;
+    }
+    console.log(color, `${req.method} - ${req.url}`);
   }
-  console.log(color, `${req.method} - ${req.url}`);
+
   next();
 };
 
-module.exports = { strictEqual, throws, stats, offTests, logRequest };
+module.exports = { strictEqual, throws, stats, offTests, offLogs, logRequest };

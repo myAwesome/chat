@@ -10,8 +10,8 @@ class StorageInMemory {
     return room;
   };
 
-  updateRoom = (room) => {
-    this.rooms.set(room.id, room);
+  updateRoom = (id, room) => {
+    this.rooms.set(id, room);
     return room;
   };
 
@@ -25,7 +25,6 @@ class StorageInMemory {
 
   deleteRoom = (id) => {
     this.rooms.delete(id);
-    return id;
   };
 
   createMessage = (message) => {

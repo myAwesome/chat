@@ -33,15 +33,28 @@ const strictEqual = (a, b) => {
   }
 };
 
+const rejects = async (a) => {
+  if (!testMode) return;
+
+  try {
+    await assert.rejects(a);
+    console.log(colors.green, `Passed: Rejects Error as expected`);
+    passed++;
+  } catch (e) {
+    console.log(colors.red, `Failed: does not throws Error `);
+    failed++;
+  }
+};
+
 const throws = (a) => {
   if (!testMode) return;
 
   try {
     assert.throws(a);
-    console.log(colors.green, `Passed: throws red as expected"`);
+    console.log(colors.green, `Passed: throws Error as expected`);
     passed++;
   } catch (e) {
-    console.log(colors.red, `Failed: doesnot throws red `);
+    console.log(colors.red, `Failed: does not throws error `);
     failed++;
   }
 };
@@ -79,4 +92,12 @@ const logRequest = (req, re, next) => {
   next();
 };
 
-module.exports = { strictEqual, throws, stats, offTests, offLogs, logRequest };
+module.exports = {
+  strictEqual,
+  throws,
+  rejects,
+  stats,
+  offTests,
+  offLogs,
+  logRequest,
+};

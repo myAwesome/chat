@@ -75,6 +75,7 @@ class Controller {
       res.status(204).json();
     });
 
+    // todo: TEST ...
     app.get(`/messages`, async (req, res) => {
       res.json(Array.from(storage.getMessages()));
     });

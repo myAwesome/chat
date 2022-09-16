@@ -28,11 +28,6 @@ facade.leaveRoom(elon, tesla);
 test.strictEqual(tesla.hasParticipant(elon), false);
 test.strictEqual(elon.hasRoom(tesla), false);
 const elonSteveDC = facade.getDirectRoom(elon, steve);
-
-test.throws(() => {
-  elonSteveDC.addParticipant(mark);
-});
-
 const steveEloneDC = facade.getDirectRoom(elon, steve);
 test.strictEqual(elonSteveDC.id, steveEloneDC.id);
 

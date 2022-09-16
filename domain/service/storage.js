@@ -55,8 +55,8 @@ class StorageInMemory {
     return participant;
   };
 
-  updateParticipant = (participant) => {
-    this.participants.set(participant.id, participant);
+  updateParticipant = (id, participant) => {
+    this.participants.set(id, participant);
     return participant;
   };
 

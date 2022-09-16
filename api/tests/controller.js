@@ -3,6 +3,7 @@ const axios = require("axios");
 
 test.offLogs();
 require("../app");
+const domainFacade = require("../../domain/service/facade");
 
 const createRoom = async (name) => {
   await axios.post("http://localhost:8090/room", { name });
@@ -19,21 +20,98 @@ const getRoom = async () => {
   return await axios.get("http://localhost:8090/room/1");
 };
 const deleteRoom = async () => {
-  await axios.delete("http://localhost:8090/room/1");
+  await axios.delete("http://localhost:8090/room/2");
+};
+
+const createParticipant = async (name) => {
+  await axios.post("http://localhost:8090/participant", { name });
+};
+
+const getParticipants = async () => {
+  return await axios.get(`http://localhost:8090/participants`);
+};
+
+const updateParticipant = async (id, name) => {
+  await axios.put(`http://localhost:8090/participant/${id}`, { name });
+};
+const getParticipant = async (id) => {
+  return await axios.get(`http://localhost:8090/participant/${id}`);
+};
+const deleteParticipant = async (id) => {
+  await axios.delete(`http://localhost:8090/participant/${id}`);
+};
+
+const joinRoom = async (r, p) => {
+  await axios.put(`http://localhost:8090/room/${r}/participant/${p}`);
+};
+const leaveRoom = async (r, p) => {
+  await axios.delete(`http://localhost:8090/room/${r}/participant/${p}`);
+};
+
+const getMessages = async () => {
+  return await axios.get("http://localhost:8090/messages");
+};
+
+const getMessage = async (id) => {
+  return await axios.get(`http://localhost:8090/message/${id}`);
+};
+
+const createMessage = async (data) => {
+  return await axios.post(`http://localhost:8090/message`, data);
+};
+
+const updateMessage = async (id, data) => {
+  return await axios.put(`http://localhost:8090/message/${id}`, data);
+};
+
+const deleteMessage = async (id) => {
+  return await axios.delete(`http://localhost:8090/message/${id}`);
 };
 
 const apiTest = async () => {
   await createRoom("Island");
+  await createRoom("Zakrutka");
+
   const rooms = await getRooms();
-  test.strictEqual(rooms.data.length, 1);
+  test.strictEqual(rooms.data.length, 2);
   test.strictEqual(rooms.data[0].id, 1);
   test.strictEqual(rooms.data[0].name, "Island");
   await updateRoom();
-  const room = await getRoom();
-  test.strictEqual(room.data.name, "Island TV");
+  const island_tv = await getRoom();
+  test.strictEqual(island_tv.data.name, "Island TV");
   await deleteRoom();
   const rooms2 = await getRooms();
-  test.strictEqual(rooms2.data.length, 0);
+  test.strictEqual(rooms2.data.length, 1);
+  console.log("----");
+  await createParticipant("Petrov");
+  await createParticipant("Ivanov");
+  await createParticipant("Grishin");
+  await createParticipant("Senkiv");
+  await createParticipant("Skripin");
+  const participants4 = await getParticipants();
+  test.strictEqual(participants4.data.length, 5);
+  test.strictEqual(participants4.data[0].id, 1);
+  test.strictEqual(participants4.data[0].name, "Petrov");
+  await updateParticipant(1, "Vova Petrov");
+  const petrov = await getParticipant(1);
+  test.strictEqual(petrov.data.name, "Vova Petrov");
+  await deleteParticipant(4);
+  const participants = await getParticipants();
+  test.strictEqual(participants.data.length, 4);
+  console.log("----");
+  await joinRoom(1, 1);
+  await joinRoom(1, 2);
+  await joinRoom(1, 3);
+  await joinRoom(1, 5);
+  test.strictEqual((await getRooms()).data[0].participants.length, 4);
+  await leaveRoom(1, 5);
+  test.strictEqual((await getRooms()).data[0].participants.length, 3);
+
+  await createMessage({ room: 1, participant: 1, text: "Hello" });
+  await createMessage({ room: 1, participant: 2, text: "Dobrogo dnya" });
+  await createMessage({ room: 1, participant: 3, text: "buenos dias" });
+  test.strictEqual((await getMessages()).data.length, 3);
+
   test.stats();
   process.exit(0);
 };

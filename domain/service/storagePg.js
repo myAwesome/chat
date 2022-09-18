@@ -1,4 +1,7 @@
 const kenx = require("knex");
+// if (process.env.TEST_MODE) {
+//   process.env.DB_SCHEME = `${process.env.DB_SCHEME}_test`;
+// }
 const db = kenx({
   client: "pg",
   connection: `postgres://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_SCHEME}`,

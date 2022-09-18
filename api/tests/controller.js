@@ -2,8 +2,8 @@ const test = require("../../domain/tests/util");
 const axios = require("axios");
 
 test.offLogs();
+process.env.TEST_MODE = true;
 require("../app");
-const domainFacade = require("../../domain/service/facade");
 
 const createRoom = async (name) => {
   await axios.post("http://localhost:8090/room", { name });

@@ -6,7 +6,9 @@ CREATE TABLE room (
 
 CREATE TABLE participant (
     id SERIAL PRIMARY KEY,
-    name text
+    name text,
+    email text UNIQUE,
+    password text
 );
 
 CREATE TABLE message (

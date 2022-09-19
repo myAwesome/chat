@@ -8,18 +8,12 @@ const db = kenx({
 });
 
 class StorageInPostgreSql {
-  constructor() {
-    this.participants = new Map();
-    this.messages = new Map();
-  }
-
   createRoom = async (room) => {
     await db("room").insert(room.toDb(), ["id"]);
     return room;
   };
 
   updateRoom = async (room) => {
-    console.log(room);
     await db("room").where({ id: room.id }).update(room.toDb());
     return room;
   };
@@ -28,61 +22,58 @@ class StorageInPostgreSql {
     return db("room").select();
   };
 
-  getRoom = async (id) => {
-    return db("room").select().where({ id });
+  getRoom = async (room) => {
+    return db("room").select().where(room).first();
   };
 
   deleteRoom = async (id) => {
     return db("room").where({ id }).del();
   };
 
-  //
-  //
-
-  createMessage = (message) => {
-    this.messages.set(message.id, message);
+  createMessage = async (message) => {
+    await db("message").insert(message.toDb(), ["id"]);
     return message;
   };
 
-  updateMessage = (message) => {
-    this.messages.set(message.id, message);
+  updateMessage = async (message) => {
+    await db("message").where({ id: message.id }).update(message.toDb());
     return message;
   };
 
-  getMessage = (id) => {
-    return this.messages.get(id);
+  getMessage = async (message) => {
+    return db("message").select(message).first();
   };
 
-  getMessages = () => {
-    return this.messages;
+  getMessages = async () => {
+    return db("message").select();
   };
 
-  deleteMessage = (id) => {
-    this.messages.delete(id);
-    return id;
+  deleteMessage = async (id) => {
+    return db("message").where({ id }).del();
   };
 
-  createParticipant = (participant) => {
-    this.participants.set(participant.id, participant);
+  createParticipant = async (participant) => {
+    await db("participant").insert(participant.toDb(), ["id"]);
     return participant;
   };
 
-  updateParticipant = (participant) => {
-    this.participants.set(participant.id, participant);
+  updateParticipant = async (participant) => {
+    await db("participant")
+      .where({ id: participant.id })
+      .update(participant.toDb());
     return participant;
   };
 
-  getParticipant = (id) => {
-    return this.participants.get(id);
+  getParticipant = async (participant) => {
+    return db("participant").select().where(participant).first();
   };
 
-  getParticipants = () => {
-    return this.participants;
+  getParticipants = async () => {
+    return db("participant").select();
   };
 
-  deleteParticipant = (id) => {
-    this.participants.delete(id);
-    return id;
+  deleteParticipant = async (id) => {
+    return db("participant").where({ id }).del();
   };
 }
 

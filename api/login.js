@@ -38,7 +38,6 @@ class Login {
         });
         return;
       }
-      console.log();
       if (this.hPass(req.body.password) === existingParticipant.password) {
         res.json(existingParticipant);
         return;

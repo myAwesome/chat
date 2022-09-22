@@ -71,7 +71,7 @@ class Controller {
     });
 
     app.delete(`/participant/:id`, async (req, res) => {
-      storage.deleteParticipant(+req.params.id);
+      await storage.deleteParticipant(+req.params.id);
       res.status(204).json();
     });
 
@@ -103,7 +103,7 @@ class Controller {
     });
 
     app.delete(`/message/:id`, async (req, res) => {
-      storage.deleteMessage(+req.params.id);
+      await storage.deleteMessage(+req.params.id);
       res.status(204).json();
     });
   };

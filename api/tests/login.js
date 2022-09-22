@@ -5,6 +5,7 @@ test.offLogs();
 
 process.env.TEST_MODE = true;
 require("../app");
+const { Login } = require("../login");
 
 const signUp = async (body) => {
   const resp = await axios.post("http://localhost:8090/sign-up", body);
@@ -38,12 +39,11 @@ const apiTest = async () => {
 
   const r3 = await signIn({
     email: "duck@gmail.com",
-    password: "000",
+    password: "111",
   });
   test.strictEqual(r3.id, 3);
 
-  // await signOut({ token: "token.data[0].token" });
-  // test.stats();
+  test.stats();
   process.exit(0);
 };
 

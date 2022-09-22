@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 class Login {
   storage;
   constructor(app, storage) {
@@ -9,7 +11,11 @@ class Login {
     return this.storage.getParticipant({ email });
   };
 
-  hPass = (password) => `hashed_${password}`;
+  static hPass = async (password) => {
+    console.log(password);
+    console.log(await bcrypt.hash(password, 10));
+    return await bcrypt.hash(password, 10);
+  };
 
   defineRoutes = (app) => {
     app.post(`/sign-up`, async (req, res) => {
@@ -38,7 +44,9 @@ class Login {
         });
         return;
       }
-      if (this.hPass(req.body.password) === existingParticipant.password) {
+      if (
+        await bcrypt.compare(req.body.password, existingParticipant.password)
+      ) {
         res.json(existingParticipant);
         return;
       }

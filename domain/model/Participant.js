@@ -1,11 +1,15 @@
 class Participant {
   id;
   name;
+  email;
+  password;
+  token;
+
   rooms;
   directRooms;
   static nextId = 0;
-  constructor(name) {
-    this.id = ++Participant.nextId;
+  constructor(name, id = null) {
+    this.id = id || ++Participant.nextId;
     this.name = name;
     this.rooms = [];
     this.directRooms = new Map();
@@ -41,12 +45,16 @@ class Participant {
     return {
       id: this.id,
       name: this.name,
+      email: this.email,
     };
   };
 
   toDb = () => {
     return {
       name: this.name,
+      email: this.email,
+      password: this.password,
+      token: this.token,
     };
   };
 }

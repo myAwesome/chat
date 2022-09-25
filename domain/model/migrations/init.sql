@@ -8,7 +8,8 @@ CREATE TABLE participant (
     id SERIAL PRIMARY KEY,
     name text,
     email text UNIQUE,
-    password text
+    password text,
+    token text
 );
 
 CREATE TABLE message (

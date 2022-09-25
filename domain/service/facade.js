@@ -45,8 +45,12 @@ const getDirectRoom = (p1, p2) => {
   return room;
 };
 
-const createParticipant = (name) => {
-  return new Participant(name);
+const createParticipant = (obj) => {
+  const participant = new Participant(obj.name);
+  participant.email = obj.email;
+  participant.password = obj.password;
+  participant.token = obj.token;
+  return participant;
 };
 
 const createGroupRoom = (name) => {

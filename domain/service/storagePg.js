@@ -58,6 +58,7 @@ class StorageInPostgreSql {
   };
 
   updateParticipant = async (participant) => {
+    console.log(participant.id, participant.toDb());
     await db("participant")
       .where({ id: participant.id })
       .update(participant.toDb());

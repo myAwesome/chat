@@ -48,23 +48,28 @@ class Login {
     });
 
     app.post(`/sign-in`, async (req, res) => {
-      const existingParticipant = await this.existingParticipant(
+      const existingParticipantRaw = await this.existingParticipant(
         req.body.email
       );
-      if (!existingParticipant) {
+
+      if (!existingParticipantRaw) {
         res.json({
           success: false,
           message: `Email ${req.body.email} does not exist`,
         });
         return;
       }
-      if (
-        await bcrypt.compare(req.body.password, existingParticipant.password)
-      ) {
-        const token = this.createToken(existingParticipant.email);
 
-        console.log({ ...existingParticipant, token });
-        res.json({ ...existingParticipant, token });
+      if (
+        await bcrypt.compare(req.body.password, existingParticipantRaw.password)
+      ) {
+        const existingParticipant = domainFacade.createParticipant(
+          existingParticipantRaw
+        );
+        existingParticipant.token = this.createToken(existingParticipant.email);
+
+        await this.storage.updateParticipant(existingParticipant);
+        res.json(existingParticipant);
         return;
       }
       res.json({ success: false, message: "wrong credentials" });
@@ -72,6 +77,8 @@ class Login {
 
     app.post(`/sign-out`, async (req, res) => {
       console.log(req.body);
+      // todo: find user by token
+      // todo: update db
       res.json();
     });
   };

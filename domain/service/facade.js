@@ -46,7 +46,7 @@ const getDirectRoom = (p1, p2) => {
 };
 
 const createParticipant = (obj) => {
-  const participant = new Participant(obj.name);
+  const participant = new Participant(obj.name, obj.id);
   participant.email = obj.email;
   participant.password = obj.password;
   participant.token = obj.token;

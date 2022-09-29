@@ -76,9 +76,14 @@ class Login {
     });
 
     app.post(`/sign-out`, async (req, res) => {
-      console.log(req.body);
-      // todo: find user by token
-      // todo: update db
+      const existingParticipantRaw = await this.storage.getParticipant({
+        token: req.body.token,
+      });
+      const existingParticipant = domainFacade.createParticipant(
+        existingParticipantRaw
+      );
+      existingParticipant.token = null;
+      await this.storage.updateParticipant(existingParticipant);
       res.json();
     });
   };

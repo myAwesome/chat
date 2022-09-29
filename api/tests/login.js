@@ -23,9 +23,9 @@ const signOut = async (body) => {
 };
 
 const apiTest = async () => {
-  // 1	donald	trump@gmail.com	111
-  // 2	d	w@gmail.com	1111
-  // 3	duck	duck@gmail.com	$2b$10$pxpoXyvA5tjsxtMWaGUFMeEQfjblrhTiJ8LEG/pDjmIL3ek4lGoq6
+  // 1	donald	trump@gmail.com	111 100500
+  // 2	d	w@gmail.com	1111 null
+  // 3	duck	duck@gmail.com	$2b$10$pxpoXyvA5tjsxtMWaGUFMeEQfjblrhTiJ8LEG/pDjmIL3ek4lGoq6 null
 
   const r1 = await signUp({
     name: "Donald",
@@ -46,6 +46,8 @@ const apiTest = async () => {
     password: "111",
   });
   test.strictEqual(r3.id, 3);
+
+  const r4 = await signOut({ token: 100500 });
 
   test.stats();
   process.exit(0);

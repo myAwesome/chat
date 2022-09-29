@@ -10,7 +10,6 @@ const { Login } = require("./login");
 const { Controller } = require("./controller");
 const { StorageInPostgreSql } = require("../domain/service/storagePg");
 
-dotenv.config();
 app.use(bodyParser.json());
 app.use(logRequest);
 

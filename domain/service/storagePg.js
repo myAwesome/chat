@@ -1,11 +1,44 @@
 const kenx = require("knex");
-// if (process.env.TEST_MODE) {
-//   process.env.DB_SCHEME = `${process.env.DB_SCHEME}_test`;
-// }
+if (process.env.TEST_MODE) {
+  process.env.DB_SCHEME = `${process.env.DB_SCHEME}_test`;
+}
 const db = kenx({
   client: "pg",
   connection: `postgres://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_SCHEME}`,
 });
+
+if (process.env.TEST_MODE) {
+  const prepareDb = async () => {
+    await db("message").truncate();
+    await db("room_has_participant").truncate();
+    await db("room").del();
+    await db("participant").del();
+
+    await db("participant").insert({
+      id: 1,
+      name: "donald",
+      email: "trump@gmail.com",
+      password: "111",
+      token: "100500",
+    });
+
+    await db("participant").insert({
+      id: 2,
+      name: "donald",
+      email: "w@gmail.com",
+      password: "1111",
+    });
+
+    await db("participant").insert({
+      id: 3,
+      name: "duck",
+      email: "duck@gmail.com",
+      password: "$2b$10$pxpoXyvA5tjsxtMWaGUFMeEQfjblrhTiJ8LEG/pDjmIL3ek4lGoq6",
+    });
+  };
+
+  prepareDb();
+}
 
 class StorageInPostgreSql {
   createRoom = async (room) => {
@@ -58,7 +91,6 @@ class StorageInPostgreSql {
   };
 
   updateParticipant = async (participant) => {
-    console.log(participant.id, participant.toDb());
     await db("participant")
       .where({ id: participant.id })
       .update(participant.toDb());

@@ -79,12 +79,20 @@ class Login {
       const existingParticipantRaw = await this.storage.getParticipant({
         token: req.body.token,
       });
+
+      if (!existingParticipantRaw) {
+        res.json({
+          success: false,
+          message: `Token ${req.body.token} does not exist`,
+        });
+        return;
+      }
       const existingParticipant = domainFacade.createParticipant(
         existingParticipantRaw
       );
       existingParticipant.token = null;
       await this.storage.updateParticipant(existingParticipant);
-      res.json();
+      res.json({ success: true });
     });
   };
 }

@@ -14,7 +14,14 @@ CREATE TABLE participant (
 
 CREATE TABLE message (
     id SERIAL PRIMARY KEY,
-    room integer REFERENCES room(id),
-    author integer REFERENCES participant(id),
-    time date
+    room integer REFERENCES room(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    author integer REFERENCES participant(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    text text,
+    created_at date
+);
+
+CREATE TABLE room_has_participant (
+    room integer REFERENCES room(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    participant integer REFERENCES participant(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    created_at date
 );

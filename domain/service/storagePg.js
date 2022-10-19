@@ -14,27 +14,28 @@ if (process.env.TEST_MODE) {
     await db("room").del();
     await db("participant").del();
 
-    await db("participant").insert({
-      id: 1,
-      name: "donald",
-      email: "trump@gmail.com",
-      password: "111",
-      token: "100500",
-    });
-
-    await db("participant").insert({
-      id: 2,
-      name: "donald",
-      email: "w@gmail.com",
-      password: "1111",
-    });
-
-    await db("participant").insert({
-      id: 3,
-      name: "duck",
-      email: "duck@gmail.com",
-      password: "$2b$10$pxpoXyvA5tjsxtMWaGUFMeEQfjblrhTiJ8LEG/pDjmIL3ek4lGoq6",
-    });
+    await db("participant").insert([
+      {
+        id: 1,
+        name: "donald",
+        email: "trump@gmail.com",
+        password: "111",
+        token: "100500",
+      },
+      {
+        id: 2,
+        name: "donald",
+        email: "w@gmail.com",
+        password: "1111",
+      },
+      {
+        id: 3,
+        name: "duck",
+        email: "duck@gmail.com",
+        password:
+          "$2b$10$pxpoXyvA5tjsxtMWaGUFMeEQfjblrhTiJ8LEG/pDjmIL3ek4lGoq6",
+      },
+    ]);
   };
 
   prepareDb();

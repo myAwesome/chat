@@ -9,6 +9,7 @@ class Controller {
   defineRoutes = (app) => {
     const storage = this.storage;
     app.get(`/rooms`, async (req, res) => {
+      console.log(req.headers)
       const rooms = await storage.getRooms();
       res.json(Array.from(rooms));
     });

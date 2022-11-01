@@ -4,7 +4,8 @@
   "description": "Chat",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./api/tests/login.js && exit 0",
+    "test-pg": "node ./api/tests/controllerPg.js && exit 0"
   },
   "repository": {
     "type": "git",

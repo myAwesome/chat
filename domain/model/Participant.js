@@ -46,6 +46,7 @@ class Participant {
       id: this.id,
       name: this.name,
       email: this.email,
+      token: this.token,
     };
   };
 

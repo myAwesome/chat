@@ -5,7 +5,6 @@ test.offLogs();
 
 process.env.TEST_MODE = true;
 require("../app");
-// const { Login } = require("../login");
 
 const signUp = async (body) => {
   const resp = await axios.post("http://localhost:8090/sign-up", body);
@@ -31,14 +30,12 @@ const apiTest = async () => {
     email: "trump@gmail.com",
     password: "111",
   });
-
   test.strictEqual(r1.success, false);
   const r2 = await signUp({
     name: "donald trump",
     email: "dt@gmail.com",
     password: "111",
   });
-
   test.strictEqual(r2.success, true);
   const r3 = await signIn({
     email: "duck@gmail.com",

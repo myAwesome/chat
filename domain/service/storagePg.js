@@ -37,14 +37,13 @@ if (process.env.TEST_MODE) {
       },
     ]);
   };
-
   prepareDb();
 }
 
 class StorageInPostgreSql {
   createRoom = async (room) => {
-    await db("room").insert(room.toDb(), ["id"]);
-    return room;
+    const id = await db("room").insert(room.toDb(), ["id"]);
+    return {...room, id};
   };
 
   updateRoom = async (room) => {

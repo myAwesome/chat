@@ -67,8 +67,8 @@ class Login {
           existingParticipantRaw
         );
         existingParticipant.token = this.createToken(existingParticipant.email);
-
         await this.storage.updateParticipant(existingParticipant);
+
         res.json(existingParticipant);
         return;
       }

@@ -69,9 +69,10 @@ const deleteMessage = async (id) => {
 };
 
 const apiTest = async () => {
-  const config = {headers:{token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImR1Y2tAZ21haWwuY29tIiwiaWF0IjoxNjY3MjgyMDgwLCJleHAiOjE2Njc4ODY4ODB9.9oz0fqIrLqUFSCv84X7m5L8Ly_aYfnVoi_EcP9plqJI'}};
+  const config = {headers:{token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImR1Y2tAZ21haWwuY29tIiwiaWF0IjoxNjY3NzA1Njc1LCJleHAiOjE2NjgzMTA0NzV9.TNC9dxYYsh26YH7pbjKud-GbSlu7KMtHrP0vc790JhA'}};
   const isl = await createRoom({name:"Island"}, config);
   console.log(isl.data)
+
   // await createRoom({name:"Zakrutka"}, config);
 
   // const rooms = await getRooms(config);

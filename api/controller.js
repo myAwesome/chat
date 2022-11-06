@@ -1,4 +1,6 @@
 const domainFacade = require("../domain/service/facade");
+const jwt = require("jsonwebtoken");
+const jwtKey = "my_secret_key";
 
 class Controller {
   storage;
@@ -6,32 +8,46 @@ class Controller {
     this.storage = storage;
     this.defineRoutes(app);
   }
+  auth = async (req, res, next) => {
+    const payload = jwt.verify(req.headers.token, jwtKey);
+    if (payload?.email) {
+      const user = await this.storage.getParticipant({email:payload.email})
+      if (user) {
+        req.user = user;
+        next();
+        return;
+      }
+    }
+    res.status(403);
+    return;
+  }
   defineRoutes = (app) => {
     const storage = this.storage;
+    app.use(this.auth);
+
     app.get(`/rooms`, async (req, res) => {
-      console.log(req.headers)
-      const rooms = await storage.getRooms();
+      const rooms = await storage.getRooms(req.user);
       res.json(Array.from(rooms));
     });
 
     app.get(`/room/:id`, async (req, res) => {
-      const room = await storage.getRoom(+req.params.id);
+      const room = await storage.getRoom(+req.params.id, req.user);
       res.json(room);
     });
 
     app.post(`/room`, async (req, res) => {
-      const room = domainFacade.createGroupRoom(req.body.name);
+      const room = domainFacade.createGroupRoom(req.body.name, req.user);
       res.status(201).json(await storage.createRoom(room));
     });
 
     app.put(`/room/:id`, async (req, res) => {
-      const room = storage.getRoom(+req.params.id);
+      const room = storage.getRoom(+req.params.id, req.user);
       room.name = req.body.name;
       res.status(201).json(storage.updateRoom(+req.params.id, room));
     });
 
     app.delete(`/room/:id`, async (req, res) => {
-      await storage.deleteRoom(+req.params.id);
+      await storage.deleteRoom(+req.params.id, req.user);
       res.status(204).json();
     });
 
